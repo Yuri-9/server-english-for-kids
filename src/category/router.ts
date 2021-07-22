@@ -1,5 +1,9 @@
 import { Router } from 'express';
+import { FileArray, UploadedFile } from 'express-fileupload';
+import path from 'path';
 import { ICategory } from './category';
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
 
 import {
   createCategory,
@@ -70,5 +74,60 @@ router.put('/:id', async (req, res) => {
     return res.status(400).send(e);
   }
 });
+
+router.post('/single', upload.single('profile'), (req, res) => {
+  try {
+    res.send(req.file);
+  } catch (err) {
+    res.send(400);
+  }
+});
+
+// router.options('/upload', function (req, res) {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', '*');
+//   res.setHeader('Access-Control-Allow-Headers', '*');
+//   res.end();
+// });
+
+// router.post('/upload', upload.single('avatar'), function (req, res) {
+//   console.log('in upload');
+//   // if (!req.files)
+//   //   return res.status(400).send('No files were uploaded.');
+//   const file = req.file;
+//   console.log('file', file);
+
+//   console.log('body', req.body);
+
+// The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+// var { name } = req.files?.sampleFile as UploadedFile;
+// console.log(name);
+
+//  fileName = req.files.sampleFile.name;
+
+// // Use the mv() method to place the file somewhere on your server
+// sampleFile.mv(path.join(__dirname+ '/../public', 'Images/')+fileName, function(err) {
+//   if (err)
+//     return res.status(400).send(err);
+
+//   res.render('index',{isUploaded: true, fileName: fileName, title: 'Express Cheque Processing System '});
+// });
+
+// // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+// console.log(req.files?.file);
+
+// const startup_image = req.files?.foo as UploadedFile;
+// console.log(startup_image);
+// const fileName = req.body.fileName;
+// // Use the mv() method to place the file somewhere on your server
+// if (startup_image)
+//   startup_image.mv(__dirname + '/images/' + fileName + '.jpg', function (err) {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log('uploaded');
+//     }
+//   });
+// });
 
 export default router;
