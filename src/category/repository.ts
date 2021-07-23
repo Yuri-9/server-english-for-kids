@@ -116,7 +116,7 @@ const categories: ICategory[] = [
 ];
 
 const newId = (function () {
-  let id = categories.length;
+  let id = categories.length + 1;
   return () => id++;
 })();
 
